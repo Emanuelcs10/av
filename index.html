@@ -27,8 +27,35 @@
           <p class="text-sm text-slate-600">Uma declaração feita especialmente pra você</p>
         </div>
       </div>
-      <button id="playToggle" class="px-4 py-2 rounded-full bg-pink-500 text-white shadow hover:brightness-95">▶️ Tocar música</button>
-    </nav>
+      <!-- Música de fundo -->
+<button id="playMusic" class="bg-rose-400 hover:bg-rose-500 text-white px-4 py-2 rounded-xl mt-8">
+  🎵 Tocar música
+</button>
+
+<script>
+  const playMusicBtn = document.getElementById('playMusic');
+  let music;
+
+  playMusicBtn.addEventListener('click', () => {
+    if (!music) {
+      // Cria o áudio apenas no primeiro clique para garantir que seja permitido pelo navegador
+      music = new Audio('https://cdn.discordapp.com/attachments/832255484433137706/1436148800883396729/BIN_-_Saturno_prod._Ajaxx_1.mp4?ex=690e8d4c&is=690d3bcc&hm=f507437bb7cef68539be03ec42721250517eb89ca8a1d571a79df6dc81f693cf&');
+      music.loop = true;
+      music.play().catch(() => {
+        alert('Toque para permitir o áudio.');
+      });
+      playMusicBtn.textContent = '⏸️ Pausar música';
+    } else if (music.paused) {
+      music.play();
+      playMusicBtn.textContent = '⏸️ Pausar música';
+    } else {
+      music.pause();
+      playMusicBtn.textContent = '🎵 Tocar música';
+    }
+  });
+</script>
+
+
   </header>
 
   <main class="max-w-5xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -68,6 +95,8 @@
         <img src="/arquivos/fotos/Vitoria_Emanuel_no_lekker041125.jpg" class="w-full h-44 object-cover rounded-xl cursor-pointer" onclick="openModal(0)">
       </div>
     </section>
+
+    
   </main>
 
   <div id="modal" class="fixed inset-0 hidden items-center justify-center z-50">
@@ -83,14 +112,11 @@
   <template id="letterTemplate">
     <div class="p-6">
       <h2 class="text-2xl font-bold">Minha carta para Vitoria</h2>
-      <p class="mt-4 text-slate-700">Meu bem,<br>Desde que te conheci, cada dia ganhou novas cores. Seu sorriso acende uma luz que me guia, e sua presença transforma o ordinário em mágico. Quero estar ao seu lado, construir memórias e dividir risos e silêncios. Obrigado por existir e por me permitir te conhecer. Com todo meu carinho,</p>
+      <p class="mt-4 text-slate-700">Vitoria,<br>Desde que te conheci, cada dia ganhou novas cores. Seu sorriso acende uma luz que me guia, e sua presença transforma o ordinário em mágico. Quero estar ao seu lado, construir memórias e dividir risos e silêncios. Obrigado por existir e por me permitir te conhecer. Com todo meu carinho,</p>
       <p class="mt-4 font-semibold">— Quem te escreveu</p>
     </div>
-  </template>
+  </template>bgAudio
 
-  <audio id="bgAudio" loop preload="auto">
-    <source src="https://www.youtube.com/watch?v=ZsyKJeqOAb0&list=RDZsyKJeqOAb0&start_radio=1" type="audio/mpeg">
-  </audio>
 
  
   <script>
@@ -129,9 +155,6 @@
     function closeModal(){const m=document.getElementById('modal');m.classList.add('hidden');m.classList.remove('flex');}
     document.getElementById('openLetter').addEventListener('click',()=>openModal('letter'));
 
-    const audio=document.getElementById('bgAudio');const btn=document.getElementById('playToggle');let playing=false;
-    btn.addEventListener('click',()=>{if(!playing){audio.play().catch(()=>{});btn.textContent='⏸️ Pausar música';playing=true;}else{audio.pause();btn.textContent='▶️ Tocar música';playing=false;}});
-    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
     const startDate = new Date('2020-10-24T23:50:00');
     function updateTime(){
@@ -149,5 +172,4 @@
     setInterval(updateTime, 1000);
   </script>
 </body>
-
 </html>
